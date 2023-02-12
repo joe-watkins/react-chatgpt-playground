@@ -14,6 +14,7 @@ function App() {
   const openai = new OpenAIApi(configuration);
 
   const [option, setOption] = useState({});
+  const [chosenType, setChosenType] = useState("");
   const [input, setInput] = useState("");
   const [result,setResult] = useState("");
 
@@ -41,9 +42,9 @@ function App() {
   return (
     <div className="gpt-chat-app">
       {Object.values(option).length === 0 ? (
-          <OptionSelection arrayItems={arrayItems} selectOption={selectOption} />
+          <OptionSelection arrayItems={arrayItems} selectOption={selectOption} setChosenType={setChosenType} />
         ) : (
-          <Translation doStuff={doStuff} setInput={setInput} result={result} setOption={setOption} />
+          <Translation doStuff={doStuff} setInput={setInput} result={result} setOption={setOption} chosenType={chosenType} />
         )}
     </div>
   );

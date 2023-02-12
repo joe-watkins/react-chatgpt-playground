@@ -1,8 +1,9 @@
 import React from 'react'
 
-export default function Translation({ doStuff, setInput, result, setOption }){
+export default function Translation({ doStuff, setInput, result, setOption, chosenType }){
     return (
         <div>
+            <h1>{chosenType}</h1>
             <textarea 
                 className="text-area" 
                 cols={80} 

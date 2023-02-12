@@ -3,6 +3,7 @@ export const arrayItems = [
         name: 'Q&A',
         id: 'q&a',
         description: 'Answer questions based on existing knowledge',
+        placeholder: 'Ask a question based in reality, no funny business',
         option: {
             model: "text-davinci-003",
             temperature: 0,
@@ -14,9 +15,20 @@ export const arrayItems = [
         }
     },
     {
+        name: 'Create Image',
+        id: 'createImage',
+        description: 'Create images using ChatGPT API',
+        placeholder: 'Describe the image you want to create',
+        option: {
+            n: 1,
+            size: "1024x1024",
+        }
+    },
+    {
         name: 'Friend Chat',
         id: 'friendChat',
         description: 'Emulate a text message conversation.',
+        placeholder: 'Have a fun chat with the friend bot',
         option: {
             model: "text-davinci-003",
             temperature: 0.5,
@@ -49,6 +61,7 @@ export const arrayItems = [
         name: 'Movie to Emoji',
         id: 'movieToEmoji',
         description: 'Convert movie titles into emoji',
+        placeholder: 'Convert movie titles into emoji: The Matrix',
         option: {
             model: "text-davinci-003",
             temperature: 0.8,

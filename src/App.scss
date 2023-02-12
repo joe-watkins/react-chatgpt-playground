@@ -45,7 +45,23 @@
 
 .action-btn {
   font-size: 20px;
-  width: 200px;
+  min-width: 200px;
   height: 50px;
   cursor: pointer;
+}
+
+.generated-img {
+  max-width: 40em;
+  margin: 1em auto;
+  img {
+    width: 100%; 
+    height: auto;
+  }
+}
+
+.api-result {
+  font-size: 1.2em;
+  line-height: 1.6;
+  max-width: 40em;
+  margin: 1em auto;
 }

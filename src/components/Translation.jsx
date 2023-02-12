@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Translation({ doStuff, setInput, result, setOption, chosenType }){
+export default function Translation({ doStuff, setInput, result, setOption, chosenType, chosenID, generateImage, setImgAlt, imgAlt, placeholder }){
     return (
         <div>
             <h1>{chosenType}</h1>
@@ -8,11 +8,32 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
                 className="text-area" 
                 cols={80} 
                 rows={10} 
-                onChange={(e) => setInput(e.target.value)}>            
+                placeholder={placeholder}
+                onChange={(e) => {
+                    setInput(e.target.value);
+                    setImgAlt(e.target.value);
+                }}
+                aria-label="Enter your query"
+            >            
             </textarea>
-            <button className="action-btn" onClick={doStuff}>Do your stuff!</button>
-            <h3>{result.length > 0 ? result : ""}</h3>
-            <a href="#" onClick={(e) => setOption({})}>&lt; Back</a>
+            {chosenID !== 'createImage' && 
+                <>
+                    <button className="action-btn" onClick={doStuff}>Do your stuff!</button>
+                    <p className="api-result">{result.length > 0 ? result : ""}</p>
+                </>
+            }
+            {chosenID === 'createImage' && 
+                <>
+                    <button className="action-btn" onClick={generateImage}>Generate Image!</button>
+                </>
+            }
+
+            {result.length > 0 && chosenID === 'createImage' ? <>
+                <div className="generated-img">
+                    <img className="result-image" src={result} alt={imgAlt} />
+                </div>
+            </> : <></>}
+            <p><a href="#" onClick={(e) => setOption({})}>&lt; Back</a></p>
         </div>
     )
 }

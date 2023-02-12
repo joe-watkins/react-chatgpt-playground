@@ -6,7 +6,7 @@ export const arrayItems = [
         option: {
             model: "text-davinci-003",
             temperature: 0,
-            max_tokens: 100,
+            max_tokens: 1024,
             top_p: 1,
             frequency_penalty: 0.0,
             presence_penalty: 0.0,
@@ -14,9 +14,18 @@ export const arrayItems = [
         }
     },
     {
-        name: 'Grammer Correction',
-        id: 'grammer',
-        description: 'Corrects sentences into standard English'
+        name: 'Friend Chat',
+        id: 'friendChat',
+        description: 'Emulate a text message conversation.',
+        option: {
+            model: "text-davinci-003",
+            temperature: 0.5,
+            max_tokens: 60,
+            top_p: 1.0,
+            frequency_penalty: 0.5,
+            presence_penalty: 0.0,
+            stop: ["You:"],
+        }
     },
     {
         name: 'Summarize for 2nd grader',
@@ -26,12 +35,29 @@ export const arrayItems = [
     {
         name: 'English to other languages',
         id: 'translate',
-        description: 'Translate English into French, Spanish, and more!'
+        description: 'Translate English into French, Spanish, and more!',
+        option: {
+            model: "text-davinci-003",
+            temperature: 0.3,
+            max_tokens: 100,
+            top_p: 1.0,
+            frequency_penalty: 0.0,
+            presence_penalty: 0.0,
+        }
     },
     {
         name: 'Movie to Emoji',
         id: 'movieToEmoji',
-        description: 'Convert movie titles into emoji'
+        description: 'Convert movie titles into emoji',
+        option: {
+            model: "text-davinci-003",
+            temperature: 0.8,
+            max_tokens: 60,
+            top_p: 1.0,
+            frequency_penalty: 0.0,
+            presence_penalty: 0.0,
+            stop: ["\n"],
+        }
     },
     {
         name: 'Explain code',

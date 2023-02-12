@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Translation({ doStuff, setInput, result, setOption, chosenType, chosenID, generateImage, setImgAlt, imgAlt, placeholder }){
+export default function Translation({ doStuff, setInput, result, setOption, chosenType, chosenID, generateImage, setImgAlt, imgAlt, placeholder, CircularProgress, isLoading }){
     return (
         <div>
             <h1>{chosenType}</h1>
@@ -27,7 +27,13 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
                     <button className="action-btn" onClick={generateImage}>Generate Image!</button>
                 </>
             }
-
+            {isLoading === true && 
+                <>
+                    <div className="loading-indicator">
+                        <CircularProgress color="white" style={{ fontSize: "6px" }} />
+                    </div>
+                </>
+            }
             {result.length > 0 && chosenID === 'createImage' ? <>
                 <div className="generated-img">
                     <img className="result-image" src={result} alt={imgAlt} />

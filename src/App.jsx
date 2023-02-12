@@ -4,6 +4,7 @@ import './App.scss'
 import Translation from './components/Translation';
 import OptionSelection from './components/OptionSelection';
 import { arrayItems } from './AIOptions';
+import { CircularProgress } from "react-loading-indicators";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
   const [result,setResult] = useState("");
   const [imgAlt, setImgAlt] = useState("");
   const [placeholder, setPlaceholder] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const resetState = () => {
     setResult("");
@@ -34,6 +36,7 @@ function App() {
 
   const doStuff = async () => {
     resetState();
+    setIsLoading(true);
     const response = await openai.createCompletion({
       model: option.model,
       prompt: input,
@@ -44,16 +47,19 @@ function App() {
       presence_penalty: option.presence_penalty,
     });
     // console.log(response.data);
+    setIsLoading(false);
     setResult(response.data.choices[0].text);
   }
 
   const generateImage = async () => {
     resetState();
+    setIsLoading(true);
     const response = await openai.createImage({
       prompt: input,
       n: option.n,
       size: option.size,
     });
+    setIsLoading(false);
     setResult(response.data.data[0].url);
     setImgAlt(input);
   } 
@@ -63,7 +69,7 @@ function App() {
       {Object.values(option).length === 0 ? (
           <OptionSelection arrayItems={arrayItems} selectOption={selectOption} setChosenType={setChosenType} setChosenID={setChosenID} setPlaceholder={setPlaceholder} />
         ) : (
-          <Translation doStuff={doStuff} setInput={setInput} result={result} setOption={setOption} chosenType={chosenType} chosenID={chosenID} generateImage={generateImage} setImgAlt={setImgAlt} imgAlt={imgAlt} placeholder={placeholder} />
+          <Translation doStuff={doStuff} setInput={setInput} result={result} setOption={setOption} chosenType={chosenType} chosenID={chosenID} generateImage={generateImage} setImgAlt={setImgAlt} imgAlt={imgAlt} placeholder={placeholder} CircularProgress={CircularProgress} isLoading={isLoading} />
         )}
     </div>
   );

@@ -20,7 +20,7 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
             {chosenID !== 'createImage' && 
                 <>
                     <button className="action-btn" onClick={doStuff}>Do your stuff!</button>
-                    <p className="api-result">{result.length > 0 ? result : ""}</p>
+                    <p role="status" className="api-result">{result.length > 0 ? result : ""}</p>
                 </>
             }
             {chosenID === 'createImage' && 
@@ -30,18 +30,22 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
             }
             {isLoading === true && 
                 <>
-                    <div className="loading-indicator">
-                        <CircularProgress color="white" style={{ fontSize: "6px" }} />
+                    <div className="loading-indicator" role="status">
+                        <span className="visuallyhidden">loading</span>
+                        <span aria-hidden="true">
+                            <CircularProgress color="white" style={{ fontSize: "6px" }} />
+                        </span>
                     </div>
                 </>
             }
             {result.length > 0 && chosenID === 'createImage' && !apiError ? <>
-                <div className="generated-img">
+                <div className="generated-img" role="status">
+                    <span className="visuallyhidden">Image created</span>
                     <img className="result-image" src={result} alt={imgAlt} />
                 </div>
             </> : <></>}
             {result.length > 0 && chosenID === 'createImage' && apiError ? <>
-                <div className="api-error">
+                <div className="api-error" role="alert">
                     <p className="api-result">{result.length > 0 ? result : ""}</p>
                 </div>
             </> : <></>}

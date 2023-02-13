@@ -69,3 +69,13 @@
 .loading-indicator {
   margin: 1em;
 }
+
+.back-trigger {
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  font-size: 1.3em;
+  a {
+    color: #fff;
+  }
+}

@@ -39,7 +39,7 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
                     <img className="result-image" src={result} alt={imgAlt} />
                 </div>
             </> : <></>}
-            <p><a href="#" onClick={(e) => setOption({})}>&lt; Back</a></p>
+            <div className="back-trigger"><a href="#" onClick={(e) => setOption({})}>&lt; Back</a></div>
         </div>
     )
 }

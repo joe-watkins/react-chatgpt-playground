@@ -1,6 +1,7 @@
 import React from 'react'
 
-export default function Translation({ doStuff, setInput, result, setOption, chosenType, chosenID, generateImage, setImgAlt, imgAlt, placeholder, CircularProgress, isLoading }){
+export default function Translation({ doStuff, setInput, result, setOption, chosenType, chosenID, generateImage, setImgAlt, imgAlt, placeholder, CircularProgress, isLoading, apiError }){
+    console.log(apiError);
     return (
         <div>
             <h1>{chosenType}</h1>
@@ -34,9 +35,14 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
                     </div>
                 </>
             }
-            {result.length > 0 && chosenID === 'createImage' ? <>
+            {result.length > 0 && chosenID === 'createImage' && !apiError ? <>
                 <div className="generated-img">
                     <img className="result-image" src={result} alt={imgAlt} />
+                </div>
+            </> : <></>}
+            {result.length > 0 && chosenID === 'createImage' && apiError ? <>
+                <div className="api-error">
+                    <p className="api-result">{result.length > 0 ? result : ""}</p>
                 </div>
             </> : <></>}
             <div className="back-trigger"><a href="#" onClick={(e) => setOption({})}>&lt; Back</a></div>

@@ -22,11 +22,13 @@ function App() {
   const [imgAlt, setImgAlt] = useState("");
   const [placeholder, setPlaceholder] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState(false);
 
   const resetState = () => {
     setResult("");
     setImgAlt("");
     setPlaceholder("");
+    setApiError(false);
   }
 
   const selectOption = (option) => {
@@ -37,31 +39,51 @@ function App() {
   const doStuff = async () => {
     resetState();
     setIsLoading(true);
-    const response = await openai.createCompletion({
-      model: option.model,
-      prompt: input,
-      temperature: option.temperature,
-      max_tokens: option.max_tokens,
-      top_p: option.top_p,
-      frequency_penalty: option.frequency_penalty,
-      presence_penalty: option.presence_penalty,
-    });
-    // console.log(response.data);
-    setIsLoading(false);
-    setResult(response.data.choices[0].text);
+    try {
+      const response = await openai.createCompletion({
+        model: option.model,
+        prompt: input,
+        temperature: option.temperature,
+        max_tokens: option.max_tokens,
+        top_p: option.top_p,
+        frequency_penalty: option.frequency_penalty,
+        presence_penalty: option.presence_penalty,
+      });
+        // console.log(response.data);
+        setIsLoading(false);
+        setResult(response.data.choices[0].text);
+    } catch (error) {
+      if (error.response) {
+        setResult(error.response.data.error.message);
+        setApiError(true);
+        setIsLoading(false);
+      } else {
+        console.log(error.message);
+      }
+    }
   }
 
   const generateImage = async () => {
     resetState();
     setIsLoading(true);
-    const response = await openai.createImage({
-      prompt: input,
-      n: option.n,
-      size: option.size,
-    });
-    setIsLoading(false);
-    setResult(response.data.data[0].url);
-    setImgAlt(input);
+    try {
+      const response = await openai.createImage({
+        prompt: input,
+        n: option.n,
+        size: option.size,
+      });
+      setIsLoading(false);
+      setResult(response.data.data[0].url);
+      setImgAlt(input);
+    } catch (error) {
+      if (error.response) {
+        setResult(error.response.data.error.message);
+        setIsLoading(false);
+        setApiError(true);
+      } else {
+        console.log(error.message);
+      }
+    }
   } 
 
   return (
@@ -69,7 +91,7 @@ function App() {
       {Object.values(option).length === 0 ? (
           <OptionSelection arrayItems={arrayItems} selectOption={selectOption} setChosenType={setChosenType} setChosenID={setChosenID} setPlaceholder={setPlaceholder} />
         ) : (
-          <Translation doStuff={doStuff} setInput={setInput} result={result} setOption={setOption} chosenType={chosenType} chosenID={chosenID} generateImage={generateImage} setImgAlt={setImgAlt} imgAlt={imgAlt} placeholder={placeholder} CircularProgress={CircularProgress} isLoading={isLoading} />
+          <Translation doStuff={doStuff} setInput={setInput} result={result} setOption={setOption} chosenType={chosenType} chosenID={chosenID} generateImage={generateImage} setImgAlt={setImgAlt} imgAlt={imgAlt} placeholder={placeholder} CircularProgress={CircularProgress} isLoading={isLoading} apiError={apiError} />
         )}
     </div>
   );

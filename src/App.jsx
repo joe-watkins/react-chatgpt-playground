@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Configuration, OpenAIApi } from 'openai'
 import './App.scss'
+import state from './constants/constants';
 import Translation from './components/Translation';
 import OptionSelection from './components/OptionSelection';
 import { arrayItems } from './AIOptions';
@@ -14,15 +15,15 @@ function App() {
 
   const openai = new OpenAIApi(configuration);
 
-  const [option, setOption] = useState({});
-  const [chosenType, setChosenType] = useState("");
-  const [chosenID, setChosenID] = useState("");
-  const [input, setInput] = useState("");
-  const [result,setResult] = useState("");
-  const [imgAlt, setImgAlt] = useState("");
-  const [placeholder, setPlaceholder] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiError, setApiError] = useState(false);
+  const [option, setOption] = useState(state.option);
+  const [chosenType, setChosenType] = useState(state.chosenType);
+  const [chosenID, setChosenID] = useState(state.chosenID);
+  const [input, setInput] = useState(state.input);
+  const [result,setResult] = useState(state.result);
+  const [imgAlt, setImgAlt] = useState(state.imgAlt);
+  const [placeholder, setPlaceholder] = useState(state.placeholder);
+  const [isLoading, setIsLoading] = useState(state.isLoading);
+  const [apiError, setApiError] = useState(state.apiError);
 
   const resetState = () => {
     setResult("");

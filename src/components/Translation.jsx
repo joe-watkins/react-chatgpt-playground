@@ -4,7 +4,7 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
     console.log(apiError);
     return (
         <div>
-            <h1>{chosenType}</h1>
+            <h1 id="chosen-type">{chosenType}</h1>
             <textarea 
                 className="text-area" 
                 cols={80} 
@@ -14,7 +14,7 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
                     setInput(e.target.value);
                     setImgAlt(e.target.value);
                 }}
-                aria-label="Enter your query"
+                aria-labelledby="chosen-type"
             >            
             </textarea>
             {chosenID !== 'createImage' && 

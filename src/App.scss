@@ -19,13 +19,13 @@
 }
 
 .grid-child {
-  border: 2px solid whitesmoke;
+  border: 2px solid #222;
   border-radius: 15px;
   padding: 10px;
   &:hover {
     background: whitesmoke;
     color: #212121;
-    border: 2px solid whitesmoke;
+    border: 2px solid #222;
   }
   h4 {
     font-weight: 700;
@@ -47,6 +47,7 @@
   font-size: 20px;
   min-width: 200px;
   height: 50px;
+  border: solid 2px #222;
   cursor: pointer;
 }
 
@@ -76,7 +77,7 @@
   left: 1em;
   font-size: 1.3em;
   a {
-    color: #fff;
+    // color: #fff;
   }
 }
 

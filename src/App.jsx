@@ -90,9 +90,29 @@ function App() {
   return (
     <div className="gpt-chat-app">
       {Object.values(option).length === 0 ? (
-          <OptionSelection arrayItems={arrayItems} selectOption={selectOption} setChosenType={setChosenType} setChosenID={setChosenID} setPlaceholder={setPlaceholder} />
+          <OptionSelection 
+            arrayItems={arrayItems} 
+            selectOption={selectOption} 
+            setChosenType={setChosenType} 
+            setChosenID={setChosenID} 
+            setPlaceholder={setPlaceholder} 
+          />
         ) : (
-          <Translation doStuff={doStuff} setInput={setInput} result={result} setOption={setOption} chosenType={chosenType} chosenID={chosenID} generateImage={generateImage} setImgAlt={setImgAlt} imgAlt={imgAlt} placeholder={placeholder} CircularProgress={CircularProgress} isLoading={isLoading} apiError={apiError} />
+          <Translation 
+            doStuff={doStuff} 
+            setInput={setInput} 
+            result={result} 
+            setOption={setOption} 
+            chosenType={chosenType} 
+            chosenID={chosenID} 
+            generateImage={generateImage} 
+            setImgAlt={setImgAlt} 
+            imgAlt={imgAlt} 
+            placeholder={placeholder} 
+            CircularProgress={CircularProgress} 
+            isLoading={isLoading} 
+            apiError={apiError} 
+          />
         )}
     </div>
   );

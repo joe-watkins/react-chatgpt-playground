@@ -42,7 +42,16 @@ export const arrayItems = [
     {
         name: 'Summarize for 2nd grader',
         id: 'summary',
-        description: 'Translates difficult text into simpler concepts.'
+        description: 'Translates difficult text into simpler concepts.',
+        placeholder: 'Summarize this for a second-grade student:',
+        option: {
+            model: "text-davinci-003",
+            temperature: 0.7,
+            max_tokens: 64,
+            top_p: 1.0,
+            frequency_penalty: 0.0,
+            presence_penalty: 0.0,
+        }
     },
     {
         name: 'English to other languages',
@@ -75,11 +84,16 @@ export const arrayItems = [
     {
         name: 'Explain code',
         id: 'explainCode',
-        description: 'Explian a complicated piece of code'
-    },
-    {
-        name: 'JavaScript to Python',
-        id: 'jstopy',
-        description: 'Convert simple JavaScript expressions into Python'
+        description: 'Explian a complicated piece of code',
+        placeholder: 'Enter code ....',
+        option: {
+            model: "code-davinci-002",
+            temperature: 0,
+            max_tokens: 64,
+            top_p: 1.0,
+            frequency_penalty: 0.0,
+            presence_penalty: 0.0,
+            stop: ["\"\"\""]
+        }
     }
 ]

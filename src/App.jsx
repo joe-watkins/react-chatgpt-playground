@@ -24,6 +24,7 @@ function App() {
   const [placeholder, setPlaceholder] = useState(state.placeholder);
   const [isLoading, setIsLoading] = useState(state.isLoading);
   const [apiError, setApiError] = useState(state.apiError);
+  const [imgResult, setImgResult] = useState(state.imgResult);
 
   const resetState = () => {
     setResult("");
@@ -74,6 +75,13 @@ function App() {
         size: option.size,
       });
       setIsLoading(false);
+      Object.keys(response.data.data).forEach(key => {
+        setImgResult(prevState => ({
+          ...prevState,
+          [key]: response.data.data[key]
+        }));
+      });
+      // console.log(imagesResponse);
       setResult(response.data.data[0].url);
       setImgAlt(input);
     } catch (error) {
@@ -112,6 +120,7 @@ function App() {
             CircularProgress={CircularProgress} 
             isLoading={isLoading} 
             apiError={apiError} 
+            imgResult={imgResult}
           />
         )}
     </div>

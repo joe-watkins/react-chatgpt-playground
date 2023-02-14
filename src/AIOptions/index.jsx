@@ -15,12 +15,12 @@ export const arrayItems = [
         }
     },
     {
-        name: 'Create Image',
+        name: 'Create Images',
         id: 'createImage',
-        description: 'Create images using ChatGPT API',
-        placeholder: 'Describe the image you want to create',
+        description: 'Create 4 images using ChatGPT API',
+        placeholder: 'Describe the image you want to create. You will get 4.',
         option: {
-            n: 1,
+            n: 4,
             size: "1024x1024",
         }
     },

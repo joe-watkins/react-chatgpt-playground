@@ -4,6 +4,7 @@ const state = {
     chosenID: "",
     input: "",
     result: "",
+    imgResult: {},
     imgAlt: "",
     placeholder: "",
     isLoading: false,

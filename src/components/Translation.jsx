@@ -35,7 +35,7 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
                     <div className="loading-indicator" role="status">
                         <span className="visuallyhidden">loading</span>
                         <span aria-hidden="true">
-                            <CircularProgress color="white" style={{ fontSize: "6px" }} />
+                            <CircularProgress color="auto" style={{ fontSize: "6px" }} />
                         </span>
                     </div>
                 </>

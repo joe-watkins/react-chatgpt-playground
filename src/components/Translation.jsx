@@ -1,9 +1,14 @@
 import React from 'react'
 
-export default function Translation({ doStuff, setInput, result, setOption, chosenType, chosenID, generateImage, setImgAlt, imgAlt, placeholder, CircularProgress, isLoading, apiError, imgResult }){
+export default function Translation({ doStuff, setInput, result, setOption, chosenType, chosenID, generateImage, setImgAlt, imgAlt, placeholder, CircularProgress, isLoading, apiError, imgResult, chatlog, setChatLog}){
     return (
         <div>
             <h1 id="chosen-type">{chosenType}</h1>
+            {chatlog.map((chat) => (
+                <>
+                    <div>{chat.id} {chat.sender} {chat.message}</div>
+                </>
+            ))}
             <textarea 
                 className="text-area" 
                 cols={80} 
@@ -42,7 +47,7 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
             }
 
 
-            <div class="generated-images" role="status">
+            <div className="generated-images" role="status">
             {result.length > 0 && chosenID === 'createImage' && !apiError && 
                 <span className="visuallyhidden">Image created</span>
             }

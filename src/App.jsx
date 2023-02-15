@@ -14,7 +14,6 @@ function App() {
   });
 
   const openai = new OpenAIApi(configuration);
-
   const [option, setOption] = useState(state.option);
   const [chosenType, setChosenType] = useState(state.chosenType);
   const [chosenID, setChosenID] = useState(state.chosenID);
@@ -25,6 +24,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(state.isLoading);
   const [apiError, setApiError] = useState(state.apiError);
   const [imgResult, setImgResult] = useState(state.imgResult);
+  const [chatlog, setChatLog] = useState([]);
+
+
 
   const resetState = () => {
     setResult("");
@@ -41,6 +43,11 @@ function App() {
   const doStuff = async () => {
     resetState();
     setIsLoading(true);
+
+    // add to chat log from the user
+    //setChatLog([...chatlog, { id: Number(chatlog.length +1), sender: "User", message: input }]);
+    setChatLog(prevChatLog => [...prevChatLog, { id: Number(prevChatLog.length +1), sender: "User", message: input }]);
+
     try {
       const response = await openai.createCompletion({
         model: option.model,
@@ -54,6 +61,9 @@ function App() {
         // console.log(response.data);
         setIsLoading(false);
         setResult(response.data.choices[0].text);
+        // add to chat log from ChatGPT
+        // setChatLog([...chatlog, { id: Number(chatlog.length +1), sender: "ChatGPT", message: response.data.choices[0].text }]);
+        setChatLog(prevChatLog => [...prevChatLog, { id: Number(prevChatLog.length +1), sender: "ChatGPT", message: response.data.choices[0].text }]);
     } catch (error) {
       if (error.response) {
         setResult(error.response.data.error.message);
@@ -68,6 +78,7 @@ function App() {
   const generateImage = async () => {
     resetState();
     setIsLoading(true);
+
     try {
       const response = await openai.createImage({
         prompt: input,
@@ -95,6 +106,10 @@ function App() {
     }
   } 
 
+  const updateChatLog = (msg) => {
+    console.log(msg);
+  }
+
   return (
     <div className="gpt-chat-app">
       {Object.values(option).length === 0 ? (
@@ -121,6 +136,8 @@ function App() {
             isLoading={isLoading} 
             apiError={apiError} 
             imgResult={imgResult}
+            chatlog={chatlog}
+            setChatLog={setChatLog}
           />
         )}
     </div>

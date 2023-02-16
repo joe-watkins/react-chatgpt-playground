@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Configuration, OpenAIApi } from 'openai'
 import './App.scss'
 import state from './constants/constants';
@@ -6,6 +6,8 @@ import Translation from './components/Translation';
 import OptionSelection from './components/OptionSelection';
 import { arrayItems } from './AIOptions';
 import { CircularProgress } from "react-loading-indicators";
+import { db } from "./firebase-config";
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
 
 function App() {
 
@@ -27,7 +29,21 @@ function App() {
   const [chatlog, setChatLog] = useState([]);
   const [chatTextEntry, setChatTextEntry] = useState("");
 
+  const usersCollectionRef = collection(db, "chat_log");
 
+  useEffect(() => {
+
+    /* output all of the docs in the table by updating state */
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef);
+      /* update the state of setUsers by iterating through the data.docs array using .data() built-in function for handling the crazy dot notation as well as grab the ID for edit/delete */
+      // setUsers(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
+      console.log(data.docs);
+    }
+
+    getUsers();
+
+  }, []);
 
   const resetState = () => {
     setResult("");

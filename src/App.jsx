@@ -25,6 +25,7 @@ function App() {
   const [apiError, setApiError] = useState(state.apiError);
   const [imgResult, setImgResult] = useState(state.imgResult);
   const [chatlog, setChatLog] = useState([]);
+  const [chatTextEntry, setChatTextEntry] = useState("");
 
 
 
@@ -33,6 +34,7 @@ function App() {
     setImgAlt("");
     setPlaceholder("");
     setApiError(false);
+    setChatTextEntry("");
   }
 
   const selectOption = (option) => {
@@ -45,7 +47,6 @@ function App() {
     setIsLoading(true);
 
     // add to chat log from the user
-    //setChatLog([...chatlog, { id: Number(chatlog.length +1), sender: "User", message: input }]);
     setChatLog(prevChatLog => [...prevChatLog, { id: Number(prevChatLog.length +1), sender: "User", message: input }]);
 
     try {
@@ -62,7 +63,6 @@ function App() {
         setIsLoading(false);
         setResult(response.data.choices[0].text);
         // add to chat log from ChatGPT
-        // setChatLog([...chatlog, { id: Number(chatlog.length +1), sender: "ChatGPT", message: response.data.choices[0].text }]);
         setChatLog(prevChatLog => [...prevChatLog, { id: Number(prevChatLog.length +1), sender: "ChatGPT", message: response.data.choices[0].text }]);
     } catch (error) {
       if (error.response) {
@@ -106,10 +106,6 @@ function App() {
     }
   } 
 
-  const updateChatLog = (msg) => {
-    console.log(msg);
-  }
-
   return (
     <div className="gpt-chat-app">
       {Object.values(option).length === 0 ? (
@@ -138,6 +134,8 @@ function App() {
             imgResult={imgResult}
             chatlog={chatlog}
             setChatLog={setChatLog}
+            chatTextEntry={chatTextEntry}
+            setChatTextEntry={setChatTextEntry}
           />
         )}
     </div>

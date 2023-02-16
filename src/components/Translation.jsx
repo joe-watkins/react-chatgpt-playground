@@ -7,7 +7,7 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
             <h1 id="chosen-type">{chosenType}</h1>
             {chatlog.map((chat) => (
                 <>
-                    <div>{chat.id} {chat.sender} {chat.message}</div>
+                    <div className="chat-output"><strong>{chat.sender}:</strong> {chat.message}</div>
                 </>
             ))}
             <textarea 

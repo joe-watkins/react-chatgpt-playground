@@ -77,31 +77,23 @@ function App() {
   };
 
   const createChat = async () => {
-    /* Create user - take the fields defined in db using: addDoc */
-    /* TODO: figure out how to add a collection and then add a document to that collection */
-    // await addDoc(usersCollectionRef, { name: newName, age: Number(newAge) });
-    // https://saveyourtime.medium.com/firebase-cloud-firestore-add-set-update-delete-get-data-6da566513b1b
 
-    // Using Firebase, create a new Document in the "chat_log" collection from a function that takes a variable and add a Collection to that Document called "chats". Iterate over the chatlog array and add each chat to the "chats" collection.
-    const newChatLog = await setDoc(doc(db, "chat_log", "Nutsack6"), {});
-    //const newChatLogID = newChatLog.id;
-    // console.log(newChatLogID);
+    const newChatLog = await setDoc(doc(db, "chat_log", "Nutsack7"), {});
 
-    const newCollectionRef = collection(db, 'chat_log', "Nutsack6", 'chats');
+    const newCollectionRef = collection(db, 'chat_log', "Nutsack7", 'chats');
 
     await addDoc(newCollectionRef, {
         data: 'Hello there World',
     })
     
     // add the chats to the new collection
-    /*
+    // TODO start up and run this to see if it logs the chats to the collection
     chatlog.forEach((chat) => {
-      addDoc(collection(db, "/chat_log/Nutsack2/chats"), {});
+      addDoc(collection(db, "/chat_log/Nutsack7/chats"), {id: chat.id, user: chat.sender, message: chat.message});
     });
-    */
 
     // update the state variable with the mapped array
-    setFirebaseCollections(prevState => [...prevState, { id: "Nutsack6" }]);
+    setFirebaseCollections(prevState => [...prevState, { id: "Nutsack7" }]);
   };
 
   const deleteChatLog = async (targetChat) => {

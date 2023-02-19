@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Translation({ doStuff, setInput, result, setOption, chosenType, chosenID, generateImage, setImgAlt, imgAlt, placeholder, CircularProgress, isLoading, apiError, imgResult, chatlog, setChatLog, chatTextEntry, setChatTextEntry}){
+export default function Translation({ doStuff, setInput, result, setOption, chosenType, chosenID, generateImage, setImgAlt, imgAlt, placeholder, CircularProgress, isLoading, apiError, imgResult, chatlog, setChatLog, chatTextEntry, setChatTextEntry, createChat}){
 
     return (
         <div>
@@ -28,6 +28,7 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
             {chosenID !== 'createImage' && 
                 <>
                     <button className="action-btn" onClick={doStuff}>Do your stuff!</button>
+                    <button className="action-btn" onClick={() => createChat(chatlog)}>Save Chat</button>
                    {/* <p role="status" className="api-result">{result.length > 0 ? result : ""}</p> */}
                 </>
             }

@@ -7,7 +7,7 @@ import OptionSelection from './components/OptionSelection';
 import { arrayItems } from './AIOptions';
 import { CircularProgress } from "react-loading-indicators";
 import { db } from "./firebase-config";
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, setDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, setDoc, query, orderBy } from "firebase/firestore";
 
 function App() {
 
@@ -32,7 +32,6 @@ function App() {
   const [firebaseChats, setFirebaseChat] = useState([]);
 
   const chatCollectionsRef = collection(db, "chat_log");
-  const chatDocumentsRef = collection(db, "/chat_log/JJJDKKK8767/chats");
 
   useEffect(() => {
 
@@ -53,14 +52,13 @@ function App() {
     };
   
     getFirebaseCollections();
-    //getFirebaseChat('JJJDKKK8767');
 
 
   }, []);
 
   /* output all of the docs in the table by updating state */
   const getFirebaseChat = async (targetChat) => {
-    const data = await getDocs(collection(db, "/chat_log/"+targetChat+"/chats"));
+    const data = await getDocs(query(collection(db, "/chat_log/"+targetChat+"/chats"), orderBy('id')));
 
     // map the documents into the desired format
     const chats = data.docs.map((doc) => ({
@@ -72,28 +70,38 @@ function App() {
     // update the state variable with the mapped array
     setFirebaseChat(chats);
 
-    console.log(firebaseChats);
+    // console.log(firebaseChats);
 
   };
 
-  const createChat = async () => {
+  const createChat = async (chatlog) => {
 
-    const newChatLog = await setDoc(doc(db, "chat_log", "Nutsack7"), {});
+    // console.log("from within the createChat function "+chatlog);
 
-    const newCollectionRef = collection(db, 'chat_log', "Nutsack7", 'chats');
-
-    await addDoc(newCollectionRef, {
-        data: 'Hello there World',
-    })
+    // create a random 10 digit number
+    const randomNum = Math.floor(Math.random() * 10000000000);
+          randomNum.toString();
     
-    // add the chats to the new collection
-    // TODO start up and run this to see if it logs the chats to the collection
-    chatlog.forEach((chat) => {
-      addDoc(collection(db, "/chat_log/Nutsack7/chats"), {id: chat.id, user: chat.sender, message: chat.message});
+          console.log(randomNum);
+   
+    // create the collection
+    const newChatLog = await setDoc(doc(db, "chat_log/"+randomNum), {});
+
+    // create the subcollection
+    const newCollectionRef = collection(db, 'chat_log/'+randomNum+'/chats');
+
+    // iterate over the chatlog array and add the chats to the new subcollection
+    chatlog.forEach(async (chat) => {
+      await addDoc(newCollectionRef, { 
+        id: chat.id,
+        user: chat.sender,
+        message: chat.message
+      });
     });
 
     // update the state variable with the mapped array
-    setFirebaseCollections(prevState => [...prevState, { id: "Nutsack7" }]);
+    // setFirebaseCollections(prevState => [...prevState, { id: randomNum }]);
+   
   };
 
   const deleteChatLog = async (targetChat) => {
@@ -141,7 +149,7 @@ function App() {
         setResult(response.data.choices[0].text);
         // add to chat log from ChatGPT
         setChatLog(prevChatLog => [...prevChatLog, { id: Number(prevChatLog.length +1), sender: "ChatGPT", message: response.data.choices[0].text }]);
-        createChat();
+        // createChat();
     } catch (error) {
       if (error.response) {
         setResult(error.response.data.error.message);
@@ -170,7 +178,6 @@ function App() {
           [key]: response.data.data[key]
         }));
       });
-      // console.log(imagesResponse);
       setResult(response.data.data[0].url);
       setImgAlt(input);
     } catch (error) {
@@ -215,6 +222,7 @@ function App() {
             setChatLog={setChatLog}
             chatTextEntry={chatTextEntry}
             setChatTextEntry={setChatTextEntry}
+            createChat={createChat}
           />
         )}
     </div>

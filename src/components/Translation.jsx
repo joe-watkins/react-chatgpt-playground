@@ -19,18 +19,18 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
                     setInput(e.target.value);
                     setImgAlt(e.target.value);
                     setChatTextEntry(e.target.value);
-                    setChatName(e.target.value);
+                    // setChatName(e.target.value);
                 }}
                 aria-labelledby="chosen-type"
                 value={chatTextEntry}
+                id="chat-text-entry"
             >            
             </textarea>
 
             {chosenID !== 'createImage' && 
                 <>
                     <button className="action-btn" onClick={doStuff}>Do your stuff!</button>
-                    <button className="action-btn" onClick={() => createChat(chatlog,chatName)
-                    }>Save Chat</button>
+                    <button className="action-btn" onClick={() => createChat(chatlog,chatName)}>Save Chat</button>
                    {/* <p role="status" className="api-result">{result.length > 0 ? result : ""}</p> */}
                 </>
             }

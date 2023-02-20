@@ -43,7 +43,7 @@ function App() {
       // map the documents into the desired format
       const chats = data.docs.map((doc) => ({
         id: doc.id,
-        chatName: doc.data().chat_name
+        chat_name: doc.data().chat_name
       }));
   
       // update the state variable with the mapped array
@@ -82,10 +82,7 @@ function App() {
 
   };
 
-  const createChat = async (chatlog) => {
-
-    // console.log("from within the createChat function "+chatlog);
-    //console.log("inside createChat function - chatName: "+chatName);
+  const createChat = async (chatlog, chatName) => {
 
     // create a random 10 digit number
     const randomNum = Math.floor(Math.random() * 10000000000);
@@ -237,6 +234,7 @@ function App() {
             setChatTextEntry={setChatTextEntry}
             createChat={createChat}
             setChatName={setChatName}
+            chatName={chatName}
           />
         )}
     </div>

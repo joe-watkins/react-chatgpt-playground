@@ -7,7 +7,7 @@ import OptionSelection from './components/OptionSelection';
 import { arrayItems } from './AIOptions';
 import { CircularProgress } from "react-loading-indicators";
 import { db } from "./firebase-config";
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, setDoc, query, orderBy } from "firebase/firestore";
+import { collection, getDoc, getDocs, addDoc, updateDoc, doc, deleteDoc, setDoc, query, orderBy } from "firebase/firestore";
 
 function App() {
 
@@ -27,6 +27,7 @@ function App() {
   const [apiError, setApiError] = useState(state.apiError);
   const [imgResult, setImgResult] = useState(state.imgResult);
   const [chatlog, setChatLog] = useState([]);
+  const [chatName, setChatName] = useState("");
   const [chatTextEntry, setChatTextEntry] = useState("");
   const [firebaseCollections, setFirebaseCollections] = useState([]);
   const [firebaseChats, setFirebaseChat] = useState([]);
@@ -41,7 +42,8 @@ function App() {
   
       // map the documents into the desired format
       const chats = data.docs.map((doc) => ({
-        id: doc.id
+        id: doc.id,
+        chatName: doc.data().chat_name
       }));
   
       // update the state variable with the mapped array
@@ -58,6 +60,11 @@ function App() {
 
   /* output all of the docs in the table by updating state */
   const getFirebaseChat = async (targetChat) => {
+
+    const docRef = doc(db, "/chat_log/", targetChat);
+    const docSnap = await getDoc(docRef);
+    console.log("checking the document and getting data " +docSnap.data().chat_name);
+
     const data = await getDocs(query(collection(db, "/chat_log/"+targetChat+"/chats"), orderBy('id')));
 
     // map the documents into the desired format
@@ -69,23 +76,25 @@ function App() {
 
     // update the state variable with the mapped array
     setFirebaseChat(chats);
+    //setFirebaseChat([{firebaseChatName: docSnap.data().chat_name, firebaseChatLog: chats}]);
 
-    // console.log(firebaseChats);
+    console.log("inside get getFirebaseChat "+ firebaseChats);
 
   };
 
   const createChat = async (chatlog) => {
 
     // console.log("from within the createChat function "+chatlog);
+    //console.log("inside createChat function - chatName: "+chatName);
 
     // create a random 10 digit number
     const randomNum = Math.floor(Math.random() * 10000000000);
-          randomNum.toString();
-    
-          console.log(randomNum);
-   
+
+    // update the state variable with the mapped array
+    setFirebaseCollections(prevState => [...prevState, { id: randomNum, chat_name: chatName }]);
+
     // create the collection
-    const newChatLog = await setDoc(doc(db, "chat_log/"+randomNum), {});
+    const newChatLog = await setDoc(doc(db, "chat_log/"+randomNum), { chat_name: chatName });
 
     // create the subcollection
     const newCollectionRef = collection(db, 'chat_log/'+randomNum+'/chats');
@@ -98,9 +107,7 @@ function App() {
         message: chat.message
       });
     });
-
-    // update the state variable with the mapped array
-    // setFirebaseCollections(prevState => [...prevState, { id: randomNum }]);
+    
    
   };
 
@@ -111,8 +118,8 @@ function App() {
     setFirebaseCollections(prevState => prevState.filter((chat) => chat.id !== targetChat));
   };
 
-  console.log(firebaseCollections);
-  console.log(firebaseChats);
+  // console.log(firebaseCollections);
+  // console.log(firebaseChats);
 
   const resetState = () => {
     setResult("");
@@ -120,6 +127,7 @@ function App() {
     setPlaceholder("");
     setApiError(false);
     setChatTextEntry("");
+    // setChatName("");
   }
 
   const selectOption = (option) => {
@@ -130,6 +138,11 @@ function App() {
   const doStuff = async () => {
     resetState();
     setIsLoading(true);
+
+    // add the first chat from the user to the chatName state - only if empty
+    if(chatName === ""){
+      setChatName(input);
+    }
 
     // add to chat log from the user
     setChatLog(prevChatLog => [...prevChatLog, { id: Number(prevChatLog.length +1), sender: "User", message: input }]);
@@ -223,20 +236,21 @@ function App() {
             chatTextEntry={chatTextEntry}
             setChatTextEntry={setChatTextEntry}
             createChat={createChat}
+            setChatName={setChatName}
           />
         )}
     </div>
       <ul>
-      {firebaseCollections.map((chat) => (
+      {firebaseCollections.map((chat,index) => (
         <li key={chat.id}>
-          <button onClick={() => getFirebaseChat(chat.id)}>{chat.id}</button>
+          <button onClick={() => getFirebaseChat(chat.id)}>{chat.id} {chat.chat_name}</button>
         </li>
       ))}
     </ul>
     {firebaseChats.length !== 0 &&
       <ul>
-        {firebaseChats.map((chat) => (
-          <li key={chat.id}>
+        {firebaseChats.map((chat,index) => (
+          <li key={index}>
             <strong>{chat.user}:</strong> {chat.message}
           </li>
         ))}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Translation({ doStuff, setInput, result, setOption, chosenType, chosenID, generateImage, setImgAlt, imgAlt, placeholder, CircularProgress, isLoading, apiError, imgResult, chatlog, setChatLog, chatTextEntry, setChatTextEntry, createChat}){
+export default function Translation({ doStuff, setInput, result, setOption, chosenType, chosenID, generateImage, setImgAlt, imgAlt, placeholder, CircularProgress, isLoading, apiError, imgResult, chatlog, setChatLog, chatTextEntry, setChatTextEntry, createChat, chatName, setChatName}){
 
     return (
         <div>
@@ -19,6 +19,7 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
                     setInput(e.target.value);
                     setImgAlt(e.target.value);
                     setChatTextEntry(e.target.value);
+                    setChatName(e.target.value);
                 }}
                 aria-labelledby="chosen-type"
                 value={chatTextEntry}
@@ -28,7 +29,8 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
             {chosenID !== 'createImage' && 
                 <>
                     <button className="action-btn" onClick={doStuff}>Do your stuff!</button>
-                    <button className="action-btn" onClick={() => createChat(chatlog)}>Save Chat</button>
+                    <button className="action-btn" onClick={() => createChat(chatlog,chatName)
+                    }>Save Chat</button>
                    {/* <p role="status" className="api-result">{result.length > 0 ? result : ""}</p> */}
                 </>
             }

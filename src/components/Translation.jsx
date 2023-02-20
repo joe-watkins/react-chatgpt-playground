@@ -5,11 +5,13 @@ export default function Translation({ doStuff, setInput, result, setOption, chos
     return (
         <div>
             <h1 id="chosen-type">{chosenType}</h1>
-            {chatlog.map((chat) => (
-                <>
-                    <div className="chat-output"><strong>{chat.sender}:</strong> {chat.message}</div>
-                </>
-            ))}
+            <div role="log" aria-labelledby="chosen-type">
+                {chatlog && chatlog.map((chat) => (
+                    <>
+                        <div className="chat-output"><strong>{chat.sender}:</strong> {chat.message}</div>
+                    </>
+                ))}
+            </div>
             <textarea 
                 className="text-area" 
                 cols={80} 

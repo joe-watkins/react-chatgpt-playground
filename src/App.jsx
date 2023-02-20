@@ -55,7 +55,6 @@ function App() {
   
     getFirebaseCollections();
 
-
   }, []);
 
   /* output all of the docs in the table by updating state */
@@ -76,9 +75,6 @@ function App() {
 
     // update the state variable with the mapped array
     setFirebaseChat(chats);
-    //setFirebaseChat([{firebaseChatName: docSnap.data().chat_name, firebaseChatLog: chats}]);
-
-    console.log("inside get getFirebaseChat "+ firebaseChats);
 
   };
 
@@ -115,16 +111,12 @@ function App() {
     setFirebaseCollections(prevState => prevState.filter((chat) => chat.id !== targetChat));
   };
 
-  // console.log(firebaseCollections);
-  // console.log(firebaseChats);
-
   const resetState = () => {
     setResult("");
     setImgAlt("");
     setPlaceholder("");
     setApiError(false);
     setChatTextEntry("");
-    // setChatName("");
   }
 
   const selectOption = (option) => {
@@ -159,7 +151,6 @@ function App() {
         setResult(response.data.choices[0].text);
         // add to chat log from ChatGPT
         setChatLog(prevChatLog => [...prevChatLog, { id: Number(prevChatLog.length +1), sender: "ChatGPT", message: response.data.choices[0].text }]);
-        // createChat();
     } catch (error) {
       if (error.response) {
         setResult(error.response.data.error.message);
